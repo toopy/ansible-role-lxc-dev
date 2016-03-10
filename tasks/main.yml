@@ -1,0 +1,31 @@
+---
+- name: Install requirements
+  file: path={{ src_path }} state=directory mode=0775 owner={{ user }}
+
+- name: Clone lxc sources
+  git: repo={{ git_repository }} dest={{ src_path }}/lxc accept_hostkey=yes
+  remote_user: "{{ user }}"
+
+- name: Make lxc
+  command: "{{ item }}"
+  args:
+    chdir: "{{ src_path }}/lxc"
+  remote_user: "{{ user }}"
+  with_items:
+    - ./autogen.sh
+    - ./configure
+    - make
+
+- name: Install lxc
+  command: "{{ item }}"
+  args:
+    chdir: "{{ src_path }}/lxc"
+  with_items:
+    - make install
+    - ldconfig
+
+- name: Check lxc install
+  command: lxc-config -l
+
+- name: Install ansible lxc-python2 requirement
+  pip: name=lxc-python2

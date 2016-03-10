@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+    - ../..
+  tasks:
+    - lxc_container:
+        name: dummy
+        state: "{{ item }}"
+        template: "{{ container_template }}"
+        template_options: "--release {{ container_template_release }}"
+      with_items:
+        - started
+        - absent
