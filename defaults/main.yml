@@ -1,0 +1,13 @@
+---
+# lxc git repo to clone
+git_repository: https://github.com/lxc/lxc.git
+
+# source dir where to clone and build
+src_path: /usr/local/src
+
+# user for the clone and build part
+user: root
+
+# container template and release to test lxc_container work
+container_template: debian
+container_template_release: jessie
