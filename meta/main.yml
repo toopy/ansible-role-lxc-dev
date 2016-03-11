@@ -13,8 +13,4 @@ galaxy_info:
 dependencies:
   - role: GROG.package
     package_list:
-      - name: automake
-      - name: git
-      - name: libcap-dev
-      - name: python-dev
-      - name: python-pip
+      - "{{ system_packages }}"

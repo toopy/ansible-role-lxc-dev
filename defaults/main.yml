@@ -11,3 +11,13 @@ user: root
 # container template and release to test lxc_container work
 container_template: debian
 container_template_release: jessie
+
+# system package requirements
+system_packages:
+  - name: automake
+  - name: debootstrap
+  - name: git
+  - name: libcap-dev
+  - name: pkg-config
+  - name: python-dev
+  - name: python-pip
