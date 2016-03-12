@@ -10,8 +10,10 @@ Requirements
 All system requirements that should be installed with this role:
 
 - automake
+- debootstrap
 - git
 - libcap-dev
+- pkg-config
 - python-dev
 - python-pip
 
