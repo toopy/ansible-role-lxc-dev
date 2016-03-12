@@ -7,7 +7,7 @@
     - lxc_container:
         name: dummy
         state: "{{ item }}"
-        template: jessie
+        template: debian
         template_options: "--release jessie --arch amd64"
       with_items:
         - started
