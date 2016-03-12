@@ -7,8 +7,8 @@
     - lxc_container:
         name: dummy
         state: "{{ item }}"
-        template: "{{ container_template }}"
-        template_options: "--release {{ container_template_release }}"
+        template: jessie
+        template_options: "--release jessie --arch amd64"
       with_items:
         - started
         - absent

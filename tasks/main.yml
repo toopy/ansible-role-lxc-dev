@@ -1,6 +1,6 @@
 ---
-- name: Install requirements
-  file: path={{ src_path }} state=directory mode=0775 owner={{ user }}
+- name: Create source directory
+  file: path={{ src_path }} state=directory mode=0644 owner={{ user }}
 
 - name: Clone lxc sources
   git: repo={{ git_repository }} dest={{ src_path }}/lxc accept_hostkey=yes

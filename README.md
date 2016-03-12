@@ -10,8 +10,10 @@ Requirements
 All system requirements that should be installed with this role:
 
 - automake
+- debootstrap
 - git
 - libcap-dev
+- pkg-config
 - python-dev
 - python-pip
 
@@ -28,10 +30,6 @@ Should work out of the box but you can specify the following values:
 
     # user for the clone and build part
     user: root
-
-    # container template and release to test lxc_container work
-    container_template: debian
-    container_template_release: jessie
 
 Dependencies
 ------------
