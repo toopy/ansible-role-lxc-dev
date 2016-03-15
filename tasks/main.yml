@@ -5,19 +5,19 @@
   ignore_errors: True
 
 - name: Create source directory
-  file: path={{ src_path }} state=directory mode=0644 owner={{ user }}
+  file: path={{ lxc_dev_src_path }} state=directory mode=0644 owner={{ lxc_dev_user }}
   when: already_installed|failed
 
 - name: Clone lxc sources
-  git: repo={{ git_repository }} dest={{ src_path }}/lxc accept_hostkey=yes
-  remote_user: "{{ user }}"
+  git: repo={{ git_repository }} dest={{ lxc_dev_src_path }}/lxc accept_hostkey=yes
+  remote_user: "{{ lxc_dev_user }}"
   when: already_installed|failed
 
 - name: Make lxc
   command: "{{ item }}"
   args:
-    chdir: "{{ src_path }}/lxc"
-  remote_user: "{{ user }}"
+    chdir: "{{ lxc_dev_src_path }}/lxc"
+  remote_user: "{{ lxc_dev_user }}"
   with_items:
     - ./autogen.sh
     - ./configure
@@ -27,7 +27,7 @@
 - name: Install lxc
   command: "{{ item }}"
   args:
-    chdir: "{{ src_path }}/lxc"
+    chdir: "{{ lxc_dev_src_path }}/lxc"
   with_items:
     - make install
     - ldconfig
