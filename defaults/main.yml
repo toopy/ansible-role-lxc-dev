@@ -1,15 +1,15 @@
 ---
 # lxc git repo to clone
-git_repository: https://github.com/lxc/lxc.git
+lxc_dev_git_repository: https://github.com/lxc/lxc.git
 
 # source dir where to clone and build
-src_path: /usr/local/src
+lxc_dev_src_path: /usr/local/src
 
 # user for the clone and build part
-user: root
+lxc_dev_user: root
 
 # system package requirements
-system_packages:
+lxc_dev_system_packages:
   - name: automake
   - name: debootstrap
   - name: git

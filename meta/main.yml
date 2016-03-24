@@ -13,4 +13,4 @@ galaxy_info:
 dependencies:
   - role: GROG.package
     package_list:
-      - "{{ system_packages }}"
+      - "{{ lxc_dev_system_packages }}"
