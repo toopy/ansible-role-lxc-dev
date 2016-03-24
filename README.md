@@ -1,6 +1,8 @@
 Lxc-dev
 =======
 
+[![Build Status](https://travis-ci.org/toopy/ansible-role-lxc-dev.svg)](https://travis-ci.org/toopy/ansible-role-lxc-dev)
+
 Install lxc from source to enable lxc support with ansible for the popular
 linux distributions.
 
