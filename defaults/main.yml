@@ -8,6 +8,10 @@ lxc_dev_src_path: /usr/local/src
 # user for the clone and build part
 lxc_dev_user: root
 
+# dnsmasq
+lxc_dev_enable_dnsmasq: true
+lxc_dev_tld: lxc
+
 # system package requirements
 lxc_dev_system_packages:
   - name: automake

@@ -36,5 +36,17 @@
 - name: Check lxc install
   command: lxc-config -l
 
+- name: Write lxc config for dnsmasq
+  template: src=templates/etc/dnsmasq.d/50-lxc.tmpl
+            dest=/etc/dnsmasq.d/50-lxc
+            mode=0655
+            owner=root
+            group=root
+  when: lxc_dev_enable_dnsmasq
+
+- name: Restart dnsmasq
+  service: name=dnsmasq state=restarted
+  when: lxc_dev_enable_dnsmasq
+
 - name: Install ansible lxc-python2 requirement
   pip: name=lxc-python2
