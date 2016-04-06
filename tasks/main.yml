@@ -25,7 +25,7 @@
   remote_user: '{{ lxc_dev_user }}'
   with_items:
     - ./autogen.sh
-    - ./configure
+    - ./configure --libdir=/lib --localstatedir=/var --sysconfdir=/etc
     - make
   when: already_installed|failed
 
