@@ -5,11 +5,16 @@
   ignore_errors: True
 
 - name: Create source directory
-  file: path={{ lxc_dev_src_path }} state=directory mode=0644 owner={{ lxc_dev_user }}
+  file: path={{ lxc_dev_src_path }}
+        state=directory
+        mode=0755
+        owner={{ lxc_dev_user }}
   when: already_installed|failed
 
 - name: Clone lxc sources
-  git: repo={{ git_repository }} dest={{ lxc_dev_src_path }}/lxc accept_hostkey=yes
+  git: repo={{ lxc_dev_git_repository }}
+       dest={{ lxc_dev_src_path }}/lxc
+       accept_hostkey=yes
   remote_user: "{{ lxc_dev_user }}"
   when: already_installed|failed
 
