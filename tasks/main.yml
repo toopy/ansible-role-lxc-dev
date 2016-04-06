@@ -36,6 +36,30 @@
 - name: Check lxc install
   command: lxc-config -l
 
+- name: Enable bridge for lxc-net service
+  lineinfile: dest=/etc/default/lxc
+              regexp='^USE_LXC_BRIDGE=.*$'
+              line='USE_LXC_BRIDGE="true"'
+  when: lxc_dev_enable_bridge
+
+- name: Ensure bridge for lxc-net service
+  replace: dest=/etc/default/lxc
+           regexp='^USE_LXC_BRIDGE=.*$'
+           replace='USE_LXC_BRIDGE="true"'
+  when: lxc_dev_enable_bridge
+
+- name: Ensure dnsmasq for lxc-net service
+  lineinfile: dest=/etc/network/interfaces
+              regexp='^LXC_DHCP_CONFILE=.*$'
+              line='LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
+
+- name: Restart lxc-net service
+  command: /usr/local/libexec/lxc/lxc-net restart
+
+- name: Restart lxcbr0 interface
+  command: ifconfig lxcbr0 up
+  when: lxc_dev_enable_bridge
+
 - name: Write lxc config for dnsmasq
   template: src=templates/etc/dnsmasq.d/50-lxc.tmpl
             dest=/etc/dnsmasq.d/50-lxc
