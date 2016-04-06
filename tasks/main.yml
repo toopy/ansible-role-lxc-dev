@@ -15,14 +15,14 @@
   git: repo={{ lxc_dev_git_repository }}
        dest={{ lxc_dev_src_path }}/lxc
        accept_hostkey=yes
-  remote_user: "{{ lxc_dev_user }}"
+  remote_user: '{{ lxc_dev_user }}'
   when: already_installed|failed
 
 - name: Make lxc
-  command: "{{ item }}"
+  command: '{{ item }}'
   args:
-    chdir: "{{ lxc_dev_src_path }}/lxc"
-  remote_user: "{{ lxc_dev_user }}"
+    chdir: '{{ lxc_dev_src_path }}/lxc'
+  remote_user: '{{ lxc_dev_user }}'
   with_items:
     - ./autogen.sh
     - ./configure
@@ -30,9 +30,9 @@
   when: already_installed|failed
 
 - name: Install lxc
-  command: "{{ item }}"
+  command: '{{ item }}'
   args:
-    chdir: "{{ lxc_dev_src_path }}/lxc"
+    chdir: '{{ lxc_dev_src_path }}/lxc'
   with_items:
     - make install
     - ldconfig
