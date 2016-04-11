@@ -47,14 +47,8 @@
               line='USE_LXC_BRIDGE="true"'
   when: lxc_dev_enable_bridge
 
-- name: Ensure bridge for lxc-net service
-  replace: dest=/etc/default/lxc
-           regexp='^USE_LXC_BRIDGE=.*$'
-           replace='USE_LXC_BRIDGE="true"'
-  when: lxc_dev_enable_bridge
-
 - name: Ensure dnsmasq for lxc-net service
-  lineinfile: dest=/etc/network/interfaces
+  lineinfile: dest=/etc/default/lxc
               regexp='^LXC_DHCP_CONFILE=.*$'
               line='LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
 
