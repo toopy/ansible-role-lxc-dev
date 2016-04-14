@@ -53,7 +53,7 @@
               line='LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
 
 - name: Write lxc config files
-  template: src='templates/etc/lxc/{{ item }}.conf.j2'
+  template: src='{{ templates_root }}/etc/lxc/{{ item }}.conf.j2'
             dest='/etc/lxc/{{ item }}.conf'
             mode=0655
             owner=root
@@ -80,7 +80,7 @@
   when: lxc_dev_enable_bridge
 
 - name: Write lxc config for dnsmasq
-  template: src=templates/etc/dnsmasq.d/50-lxc.tmpl
+  template: src='{{ templates_root }}/etc/dnsmasq.d/50-lxc.tmpl'
             dest=/etc/dnsmasq.d/50-lxc
             mode=0655
             owner=root
