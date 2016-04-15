@@ -62,6 +62,16 @@
     - default
     - dnsmasq
 
+- name: Ensure dnsmasq bind-interfaces
+  lineinfile: dest=/etc/dnsmasq.conf
+              regexp='^#bind-interfaces'
+              line='bind-interfaces'
+  when: lxc_dev_enable_dnsmasq
+
+- name: Restart dnsmasq
+  service: name=dnsmasq state=restarted
+  when: lxc_dev_enable_dnsmasq
+
 - name: Restart lxc-net service
   command: /usr/local/libexec/lxc/lxc-net restart
 
