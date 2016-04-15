@@ -41,6 +41,16 @@
 - name: Check lxc install
   command: lxc-config -l
 
+- name: Write lxc config files
+  template: src='{{ templates_root }}/etc/lxc/{{ item }}.conf.j2'
+            dest='/etc/lxc/{{ item }}.conf'
+            mode=0655
+            owner=root
+            group=root
+  with_items:
+    - default
+    - dnsmasq
+
 - name: Enable bridge for lxc-net service
   lineinfile: dest=/etc/default/lxc
               regexp='^USE_LXC_BRIDGE=.*$'
@@ -52,32 +62,30 @@
               regexp='^LXC_DHCP_CONFILE=.*$'
               line='LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
 
-- name: Write lxc config files
-  template: src='{{ templates_root }}/etc/lxc/{{ item }}.conf.j2'
-            dest='/etc/lxc/{{ item }}.conf'
+- name: Write lxc config for dnsmasq
+  template: src='{{ templates_root }}/etc/{{ item }}.j2'
+            dest='/etc/{{ item }}'
             mode=0655
             owner=root
             group=root
   with_items:
-    - default
-    - dnsmasq
+    - dnsmasq.d/50-lxc
+    - default/lxc-net
+  when: lxc_dev_enable_bridge
+
+- name: Restart lxc-net service
+  command: /usr/local/libexec/lxc/lxc-net restart
+  when: lxc_dev_enable_bridge
+
+- name: Restart lxcbr0 interface
+  command: ifconfig lxcbr0 up
+  when: lxc_dev_enable_bridge
 
 - name: Ensure dnsmasq bind-interfaces
   lineinfile: dest=/etc/dnsmasq.conf
               regexp='^#bind-interfaces'
               line='bind-interfaces'
   when: lxc_dev_enable_dnsmasq
-
-- name: Restart dnsmasq
-  service: name=dnsmasq state=restarted
-  when: lxc_dev_enable_dnsmasq
-
-- name: Restart lxc-net service
-  command: /usr/local/libexec/lxc/lxc-net restart
-
-- name: Restart lxcbr0 interface
-  command: ifconfig lxcbr0 up
-  when: lxc_dev_enable_bridge
 
 - name: Write lxc config for dnsmasq
   template: src='{{ templates_root }}/etc/dnsmasq.d/50-lxc.j2'
