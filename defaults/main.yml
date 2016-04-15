@@ -24,3 +24,5 @@ lxc_dev_system_packages:
   - name: pkg-config
   - name: python-dev
   - name: python-pip
+
+templates_root: templates
