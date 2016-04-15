@@ -63,11 +63,14 @@
               line='LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
 
 - name: Write lxc config for dnsmasq
-  template: src='{{ templates_root }}/etc/dnsmasq.d/50-lxc.j2'
-            dest='/etc/dnsmasq.d/50-lxc'
+  template: src='{{ templates_root }}/etc/{{ item }}.j2'
+            dest='/etc/{{ item }}'
             mode=0655
             owner=root
             group=root
+  with_items:
+    - dnsmasq.d/50-lxc
+    - default/lxc-net
   when: lxc_dev_enable_bridge
 
 - name: Restart lxc-net service
