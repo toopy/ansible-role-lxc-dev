@@ -80,7 +80,7 @@
   when: lxc_dev_enable_bridge
 
 - name: Write lxc config for dnsmasq
-  template: src='{{ templates_root }}/etc/dnsmasq.d/50-lxc.tmpl'
+  template: src='{{ templates_root }}/etc/dnsmasq.d/50-lxc.j2'
             dest=/etc/dnsmasq.d/50-lxc
             mode=0655
             owner=root
