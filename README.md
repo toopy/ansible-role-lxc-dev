@@ -9,15 +9,7 @@ linux distributions.
 Requirements
 ------------
 
-All system requirements that should be installed with this role:
-
-- automake
-- debootstrap
-- git
-- libcap-dev
-- pkg-config
-- python-dev
-- python-pip
+None
 
 Role Variables
 --------------
@@ -25,13 +17,30 @@ Role Variables
 Should work out of the box but you can specify the following values:
 
     # lxc git repo to clone
-    git_lxc: git@github.com:lxc/lxc.git
+    lxc_dev_git_repository: https://github.com/lxc/lxc.git
 
     # source dir where to clone and build
-    src_path: /usr/local/src
+    lxc_dev_src_path: /usr/local/src
 
     # user for the clone and build part
-    user: root
+    lxc_dev_user: root
+
+    # bridge
+    lxc_dev_enable_bridge: true
+
+    # dnsmasq
+    lxc_dev_enable_dnsmasq: true
+    lxc_dev_tld: lxc
+
+    # system package requirements
+    lxc_dev_system_packages:
+      - name: automake
+      - name: debootstrap
+      - name: git
+      - name: libcap-dev
+      - name: pkg-config
+      - name: python-dev
+      - name: python-pip
 
 Dependencies
 ------------
