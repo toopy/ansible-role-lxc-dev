@@ -68,6 +68,12 @@
     - default
     - dnsmasq
 
+- name: Ensure lxc domain for lxc-net service
+  lineinfile: create=yes
+              dest=/etc/default/lxc-net
+              line='LXC_DOMAIN=lxc'
+              state=present
+
 - name: Restart lxc-net service
   command: /usr/local/libexec/lxc/lxc-net restart
 
