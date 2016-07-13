@@ -51,6 +51,11 @@
     - default
     - dnsmasq
 
+- name: Ensure /etc/default dir
+  file: path=/etc/default
+        state=directory
+        mode=0755
+
 - name: Enable bridge for lxc-net service
   lineinfile: dest=/etc/default/lxc
               regexp='^USE_LXC_BRIDGE=.*$'
