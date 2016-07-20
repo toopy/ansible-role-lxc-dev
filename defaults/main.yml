@@ -14,6 +14,12 @@ lxc_dev_enable_bridge: true
 # dnsmasq
 lxc_dev_enable_dnsmasq: true
 lxc_dev_tld: lxc
+# default: 10.0.3.1
+lxc_dev_addr: null
+# default: 10.0.3.0/24
+lxc_dev_network: null
+# default: 10.0.3.2,10.0.3.254
+lxc_dev_dhcp_range: null
 
 # system package requirements
 lxc_dev_system_packages:
