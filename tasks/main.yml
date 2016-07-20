@@ -43,6 +43,10 @@
 - name: Check lxc install
   command: lxc-config -l
 
+- name: Install ansible lxc-python2 requirement
+  pip:
+    name: lxc-python2
+
 - name: Write lxc config files
   template:
     dest: '/etc/lxc/{{ item }}.conf'
@@ -50,40 +54,6 @@
   with_items:
     - default
     - dnsmasq
-
-- name: Enable bridge for lxc-net service
-  lineinfile:
-    dest: /etc/default/lxc
-    line: 'USE_LXC_BRIDGE="true"'
-    regexp: '^USE_LXC_BRIDGE=.*$'
-  when: lxc_dev_enable_bridge
-
-- name: Ensure dnsmasq for lxc-net service
-  lineinfile:
-    dest: /etc/default/lxc
-    line: 'LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
-    regexp: '^LXC_DHCP_CONFILE=.*$'
-
-- name: Write lxc config for dnsmasq
-  template:
-    dest: /etc/default/lxc-net
-    src: '{{ templates_root }}/etc/default/lxc-net.j2'
-  when: lxc_dev_enable_bridge
-
-- name: Ensure lxc domain for lxc-net service
-  lineinfile:
-    create: yes
-    dest: /etc/default/lxc-net
-    line: 'LXC_DOMAIN=lxc'
-    state: present
-
-- name: Restart lxc-net service
-  command: /usr/local/libexec/lxc/lxc-net restart
-  when: lxc_dev_enable_bridge
-
-- name: Restart lxcbr0 interface
-  command: ifconfig lxcbr0 up
-  when: lxc_dev_enable_bridge
 
 - name: Ensure dnsmasq bind-interfaces
   lineinfile:
@@ -104,6 +74,42 @@
     state: restarted
   when: lxc_dev_enable_dnsmasq
 
-- name: Install ansible lxc-python2 requirement
-  pip:
-    name: lxc-python2
+- name: Enable bridge for lxc-net service
+  lineinfile:
+    dest: /etc/default/lxc
+    line: 'USE_LXC_BRIDGE="true"'
+    regexp: '^USE_LXC_BRIDGE=.*$'
+  when: lxc_dev_enable_bridge
+
+- name: Ensure dnsmasq for lxc-net service
+  lineinfile:
+    dest: /etc/default/lxc
+    line: 'LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
+    regexp: '^LXC_DHCP_CONFILE=.*$'
+  when: lxc_dev_enable_bridge
+
+- name: Write lxc config for dnsmasq
+  template:
+    dest: /etc/default/lxc-net
+    src: '{{ templates_root }}/etc/default/lxc-net.j2'
+  when: lxc_dev_enable_bridge
+
+- name: Ensure lxc domain for lxc-net service
+  lineinfile:
+    create: yes
+    dest: /etc/default/lxc-net
+    line: 'LXC_DOMAIN=lxc'
+    state: present
+  when: lxc_dev_enable_bridge
+
+- name: Restart lxc-net service
+  command: /usr/local/libexec/lxc/lxc-net restart
+  when: lxc_dev_enable_bridge
+
+- name: Restart lxcbr0 interface
+  command: ifconfig lxcbr0 up
+  when: lxc_dev_enable_bridge
+
+- name: Update resolvconf
+  command: resolvconf -u
+  when: lxc_dev_enable_dnsmasq or lxc_dev_enable_bridge

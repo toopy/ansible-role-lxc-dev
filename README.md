@@ -3,13 +3,18 @@ Lxc-dev
 
 [![Build Status](https://travis-ci.org/toopy/ansible-role-lxc-dev.svg)](https://travis-ci.org/toopy/ansible-role-lxc-dev)
 
-Install lxc from source to enable lxc support with ansible for the popular
+Install lxc from source to enable lxc support with `ansible` for the popular
 linux distributions.
 
 Requirements
 ------------
 
-None
+If you enable `lxc_dev_enable_bridge` you will need `iptables`.
+
+If you enable `lxc_dev_enable_dnsmasq` variable you will need `dnsmasq`.
+
+If you enable `lxc_dev_enable_bridge` or `lxc_dev_enable_dnsmasq` variable you
+will need `resolvconf`.
 
 Role Variables
 --------------
@@ -26,10 +31,13 @@ Should work out of the box but you can specify the following values:
     lxc_dev_user: root
 
     # bridge
-    lxc_dev_enable_bridge: true
+    lxc_dev_enable_bridge: yes
+    lxc_dev_addr: 10.0.3.1
+    lxc_dev_network: 10.0.3.0/24
+    lxc_dev_dhcp_range: 10.0.3.2,10.0.3.254
 
     # dnsmasq
-    lxc_dev_enable_dnsmasq: true
+    lxc_dev_enable_dnsmasq: yes
     lxc_dev_tld: lxc
 
     # system package requirements
