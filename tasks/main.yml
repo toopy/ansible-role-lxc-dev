@@ -5,16 +5,18 @@
   ignore_errors: True
 
 - name: Create source directory
-  file: path={{ lxc_dev_src_path }}
-        state=directory
-        mode=0755
-        owner={{ lxc_dev_user }}
+  file:
+    mode: 0755
+    owner: '{{ lxc_dev_user }}'
+    path: '{{ lxc_dev_src_path }}'
+    state: directory
   when: already_installed|failed
 
 - name: Clone lxc sources
-  git: repo={{ lxc_dev_git_repository }}
-       dest={{ lxc_dev_src_path }}/lxc
-       accept_hostkey=yes
+  git:
+    accept_hostkey: yes
+    dest: '{{ lxc_dev_src_path }}/lxc'
+    repo: '{{ lxc_dev_git_repository }}'
   remote_user: '{{ lxc_dev_user }}'
   when: already_installed|failed
 
@@ -42,42 +44,38 @@
   command: lxc-config -l
 
 - name: Write lxc config files
-  template: src='{{ templates_root }}/etc/lxc/{{ item }}.conf.j2'
-            dest='/etc/lxc/{{ item }}.conf'
-            mode=0655
-            owner=root
-            group=root
+  template:
+    dest: '/etc/lxc/{{ item }}.conf'
+    src: '{{ templates_root }}/etc/lxc/{{ item }}.conf.j2'
   with_items:
     - default
     - dnsmasq
 
 - name: Enable bridge for lxc-net service
-  lineinfile: dest=/etc/default/lxc
-              regexp='^USE_LXC_BRIDGE=.*$'
-              line='USE_LXC_BRIDGE="true"'
+  lineinfile:
+    dest: /etc/default/lxc
+    line: 'USE_LXC_BRIDGE="true"'
+    regexp: '^USE_LXC_BRIDGE=.*$'
   when: lxc_dev_enable_bridge
 
 - name: Ensure dnsmasq for lxc-net service
-  lineinfile: dest=/etc/default/lxc
-              regexp='^LXC_DHCP_CONFILE=.*$'
-              line='LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
+  lineinfile:
+    dest: /etc/default/lxc
+    line: 'LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
+    regexp: '^LXC_DHCP_CONFILE=.*$'
 
 - name: Write lxc config for dnsmasq
-  template: src='{{ templates_root }}/etc/{{ item }}.j2'
-            dest='/etc/{{ item }}'
-            mode=0655
-            owner=root
-            group=root
-  with_items:
-    - dnsmasq.d/50-lxc
-    - default/lxc-net
+  template:
+    dest: /etc/default/lxc-net
+    src: '{{ templates_root }}/etc/default/lxc-net.j2'
   when: lxc_dev_enable_bridge
 
 - name: Ensure lxc domain for lxc-net service
-  lineinfile: create=yes
-              dest=/etc/default/lxc-net
-              line='LXC_DOMAIN=lxc'
-              state=present
+  lineinfile:
+    create: yes
+    dest: /etc/default/lxc-net
+    line: 'LXC_DOMAIN=lxc'
+    state: present
 
 - name: Restart lxc-net service
   command: /usr/local/libexec/lxc/lxc-net restart
@@ -88,22 +86,24 @@
   when: lxc_dev_enable_bridge
 
 - name: Ensure dnsmasq bind-interfaces
-  lineinfile: dest=/etc/dnsmasq.conf
-              regexp='^#bind-interfaces'
-              line='bind-interfaces'
+  lineinfile:
+    dest: /etc/dnsmasq.conf
+    line: 'bind-interfaces'
+    regexp: '^#bind-interfaces'
   when: lxc_dev_enable_dnsmasq
 
 - name: Write lxc config for dnsmasq
-  template: src='{{ templates_root }}/etc/dnsmasq.d/50-lxc.j2'
-            dest=/etc/dnsmasq.d/50-lxc
-            mode=0655
-            owner=root
-            group=root
+  template:
+    dest: /etc/dnsmasq.d/50-lxc
+    src: '{{ templates_root }}/etc/dnsmasq.d/50-lxc.j2'
   when: lxc_dev_enable_dnsmasq
 
 - name: Restart dnsmasq
-  service: name=dnsmasq state=restarted
+  service:
+    name: dnsmasq
+    state: restarted
   when: lxc_dev_enable_dnsmasq
 
 - name: Install ansible lxc-python2 requirement
-  pip: name=lxc-python2
+  pip:
+    name: lxc-python2
