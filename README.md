@@ -40,6 +40,9 @@ Should work out of the box but you can specify the following values:
     lxc_dev_enable_dnsmasq: yes
     lxc_dev_tld: lxc
 
+    # python
+    lxc_dev_pip_executable: pip2
+
     # system package requirements
     lxc_dev_system_packages:
       - name: automake

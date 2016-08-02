@@ -21,6 +21,9 @@ lxc_dev_network: null
 # default: 10.0.3.2,10.0.3.254
 lxc_dev_dhcp_range: null
 
+# python
+lxc_dev_pip_executable: pip2
+
 # system package requirements
 lxc_dev_system_packages:
   - name: automake

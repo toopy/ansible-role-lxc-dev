@@ -46,6 +46,7 @@
 - name: Install ansible lxc-python2 requirement
   pip:
     name: lxc-python2
+    executable: '{{ lxc_dev_pip_executable }}'
 
 - name: Write lxc config files
   template:
