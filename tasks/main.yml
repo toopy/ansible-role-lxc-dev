@@ -104,7 +104,11 @@
   when: lxc_dev_enable_bridge
 
 - name: Restart lxc-net service
-  command: /usr/local/libexec/lxc/lxc-net restart
+  command: systemctl restart lxc-net
+  when: lxc_dev_enable_bridge
+
+- name: Enable lxc-net service at start
+  command: systemctl enable lxc-net
   when: lxc_dev_enable_bridge
 
 - name: Restart lxcbr0 interface
