@@ -30,6 +30,8 @@ lxc_dev_system_packages:
   - name: debootstrap
   - name: git
   - name: libcap-dev
+  - name: libtool
+  - name: make
   - name: pkg-config
   - name: python-dev
   - name: python-pip
