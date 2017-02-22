@@ -35,5 +35,6 @@ lxc_dev_system_packages:
   - name: pkg-config
   - name: python-dev
   - name: python-pip
+  - name: resolvconf
 
 templates_root: templates
