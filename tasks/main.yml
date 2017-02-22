@@ -17,14 +17,14 @@
     accept_hostkey: yes
     dest: '{{ lxc_dev_src_path }}/lxc'
     repo: '{{ lxc_dev_git_repository }}'
-  remote_user: '{{ lxc_dev_user }}'
+  become_user: '{{ lxc_dev_user }}'
   when: already_installed|failed
 
 - name: Make lxc
   command: '{{ item }}'
   args:
     chdir: '{{ lxc_dev_src_path }}/lxc'
-  remote_user: '{{ lxc_dev_user }}'
+  become_user: '{{ lxc_dev_user }}'
   with_items:
     - ./autogen.sh
     - ./configure --libdir=/lib --localstatedir=/var --sysconfdir=/etc
