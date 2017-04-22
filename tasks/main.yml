@@ -61,7 +61,7 @@
     dest: /etc/dnsmasq.conf
     line: 'bind-interfaces'
     regexp: '^#bind-interfaces'
-  when: lxc_dev_enable_dnsmasq
+  when: lxc_dev_enable_dnsmasq and not ansible_check_mode
 
 - name: Write lxc config for dnsmasq
   template:
@@ -80,14 +80,14 @@
     dest: /etc/default/lxc
     line: 'USE_LXC_BRIDGE="true"'
     regexp: '^USE_LXC_BRIDGE=.*$'
-  when: lxc_dev_enable_bridge
+  when: lxc_dev_enable_bridge and not ansible_check_mode
 
 - name: Ensure dnsmasq for lxc-net service
   lineinfile:
     dest: /etc/default/lxc
     line: 'LXC_DHCP_CONFILE="/etc/lxc/dnsmasq.conf"'
     regexp: '^LXC_DHCP_CONFILE=.*$'
-  when: lxc_dev_enable_bridge
+  when: lxc_dev_enable_bridge and not ansible_check_mode
 
 - name: Write lxc config for dnsmasq
   template:
